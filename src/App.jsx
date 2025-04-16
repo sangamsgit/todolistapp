@@ -34,6 +34,10 @@ function App() {
           <NotePage />
         )}
 
+        {selectedSection === 'Calendar' && (
+          <Calendar />
+        )}
+
         {selectedSection === 'Habit tracker' && (
           <HabitTracker setSelectedSection={setSelectedSection} />
         )}
@@ -43,6 +47,7 @@ function App() {
           selectedSection !== 'Today' &&
           selectedSection !== 'Timer' &&
           selectedSection !== 'Note' &&
+          selectedSection !== 'Calendar' &&
           selectedSection !== 'Habit tracker' && (
             <div className="placeholder">
               <h2>{selectedSection}</h2>

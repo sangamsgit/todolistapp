@@ -8,7 +8,7 @@
   
   .toolbar {
     width: 100%;
-    max-width: 32rem;
+    /* max-width: 32rem; */
     display: flex;
     justify-content: space-between;
     padding: 0.5rem;
@@ -112,7 +112,7 @@
   
   .save-btn {
     width: 100%;
-    background-color: #ff6200;
+    background-color: #ee5468;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -123,4 +123,3 @@
   .save-btn:hover {
     background-color: #e55a00;
   }
-  

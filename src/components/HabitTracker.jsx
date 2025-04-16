@@ -13,7 +13,7 @@ import {
   faClock
 } from '@fortawesome/free-solid-svg-icons';
 
-const HabitTracker = ({ setSelectedSection }) => {
+const HabitTracker = () => {
   const [dateRange, setDateRange] = useState('May 03 - May 18');
   const [timeRange, setTimeRange] = useState('24h');
   const [goalValues, setGoalValues] = useState(Array(6).fill(0));
@@ -72,28 +72,7 @@ const HabitTracker = ({ setSelectedSection }) => {
   const habitIcons = ['🏃', '💧', '💪', '😴', '🐪', '🥦'];
 
   return (
-    <div className="app-container">
-      <div className="sidebar">
-        <div className="sidebar-item" onClick={() => setSelectedSection('Dashboard')}>
-          <FontAwesomeIcon icon={faThLarge} /> Dashboard
-        </div>
-        <div className="sidebar-item" onClick={() => setSelectedSection('To-Do List')}>
-          <FontAwesomeIcon icon={faTasks} /> To-do list
-        </div>
-        <div className="sidebar-item" onClick={() => setSelectedSection('Note')}>
-          <FontAwesomeIcon icon={faStickyNote} /> Notes
-        </div>
-        <div className="sidebar-item" onClick={() => setSelectedSection('Timer')}>
-          <FontAwesomeIcon icon={faStopwatch} /> Timer
-        </div>
-        <div className="sidebar-item" onClick={() => setSelectedSection('Today')}>
-          <FontAwesomeIcon icon={faCalendar} /> Calendar
-        </div>
-        <div className="sidebar-item active">
-          <FontAwesomeIcon icon={faChartBar} /> Habit tracker
-        </div>
-      </div>
-
+    <div className="habit-tracker-container">
       <div className="main-content">
         <div className="header">
           <div className="date-selector" onClick={() => setDateRange(cycleOptions(dateRange, ['May 01 - Jun 01', 'Jun 01 - Jun 15', 'Jun 15 - Jun 30']))}>
@@ -144,8 +123,8 @@ const HabitTracker = ({ setSelectedSection }) => {
                 <div key={i} className="achieved-cell" onClick={() => handleAchievedClick(i)}>{val}</div>
               ))}
             </div>
-          </div>
-
+          </div>  
+          <div className='progress-box-wrapper'>
           <div className="progress-box">
             <div className="progress-title">Not done</div>
             <div className="progress-circle not-done">
@@ -172,6 +151,7 @@ const HabitTracker = ({ setSelectedSection }) => {
               </svg>
               <div className="progress-text">{progress}%</div>
             </div>
+          </div>
           </div>
         </div>
       </div>

@@ -49,6 +49,7 @@ import ToDoDashboard from './components/ToDoDashboard';
 import TodayTasks from './components/TodayTasks';
 import TimerPage from './components/TimerPage';
 import NotePage from './components/NotesPage';
+import CalendarPage from './components/CalendarPage';
 import HabitTracker from './components/HabitTracker'; // Import HabitTracker
 import './App.css';
 
@@ -74,10 +75,11 @@ function App() {
         {selectedSection === 'Today' && <TodayTasks />}
         {selectedSection === 'Timer' && <TimerPage />}
         {selectedSection === 'Notes' && <NotePage />}
+        {selectedSection === 'Calendar' && <CalendarPage />}
         {selectedSection === 'Habit Tracker' && <HabitTracker />} {/* This line is now active */}
         
         {/* Placeholder for unfinished sections */}
-        {['To-Do List', 'Today', 'Timer', 'Notes', 'Habit Tracker'].indexOf(selectedSection) === -1 && (
+        {['To-Do List', 'Today', 'Timer', 'Notes','Calendar', 'Habit Tracker'].indexOf(selectedSection) === -1 && (
           <div className="placeholder">
             <h2>{selectedSection}</h2>
             <p>This section is under construction ✌️</p>
