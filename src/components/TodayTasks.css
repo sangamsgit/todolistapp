@@ -19,7 +19,7 @@
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 3px rgba(0, 0, 0, 0.1);
 }
 
 .task-item.dragging {
@@ -99,4 +99,63 @@
 .dummy-task {
   opacity: 0.6;
   font-style: italic;
+}
+
+
+.today-tasks-container {
+  padding: 20px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task-input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  background: #f0f0f0;
+}
+
+.task-input:focus {
+  outline: none;
+  background: #e2e2e2;
+}
+
+.task-input.completed-input {
+  text-decoration: line-through;
+  color: #888;
+  background-color: #eee;
+}
+
+.circle-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #555;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.circle-checkbox.checked {
+  background-color: #555;
+}
+
+.circle-placeholder {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.completed-tasks {
+  margin-top: 30px;
+}
+
+.completed-tasks h3 {
+  margin-bottom: 10px;
+  color: #444;
 }

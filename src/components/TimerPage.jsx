@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './App.css';
 import './TimerPage.css'
 
 const App = () => {
@@ -141,4 +140,4 @@ const App = () => {
   );
 };
 
-export default TimerPage;
+export default App;

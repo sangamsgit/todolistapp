@@ -3,8 +3,11 @@ import Sidebar from './components/Sidebar';
 import ToDoDashboard from './components/ToDoDashboard';
 import TodayTasks from './components/TodayTasks';
 import TimerPage from './components/TimerPage'; // ✅ Import your TimerPage
+import NotePage from './components/NotesPage';
 import './App.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 import { ListTodo, CalendarDays, Timer, NotebookPen, BadgeCheck } from "lucide-react";
+import HabitTracker from './components/HabitTracker';
 
 function App() {
   const [selectedSection, setSelectedSection] = useState('To-Do List');
@@ -27,10 +30,20 @@ function App() {
           <TimerPage />
         )}
 
-        {/* Placeholder for other sections */}
+        {selectedSection === 'Note' && (
+          <NotePage />
+        )}
+
+        {selectedSection === 'Habit tracker' && (
+          <HabitTracker setSelectedSection={setSelectedSection} />
+        )}
+
+        {/* Placeholder for any unhandled sections */}
         {selectedSection !== 'To-Do List' &&
           selectedSection !== 'Today' &&
-          selectedSection !== 'Timer' && (
+          selectedSection !== 'Timer' &&
+          selectedSection !== 'Note' &&
+          selectedSection !== 'Habit tracker' && (
             <div className="placeholder">
               <h2>{selectedSection}</h2>
               <p>This section is under construction ✌️</p>

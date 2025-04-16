@@ -42,13 +42,15 @@
 // export default App;
 
 
+// App.js
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import ToDoDashboard from './components/ToDoDashboard';
-import TodayTasks from './components/TodayTasks'; // Import the TodayTasks component
+import TodayTasks from './components/TodayTasks';
+import TimerPage from './components/TimerPage';
+import NotePage from './components/NotesPage';
+import HabitTracker from './components/HabitTracker'; // Import HabitTracker
 import './App.css';
-// import './responsive.css';
-import { ListTodo, CalendarDays, Timer, NotebookPen, BadgeCheck } from "lucide-react";
 
 function App() {
   const [selectedSection, setSelectedSection] = useState('To-Do List');
@@ -56,18 +58,26 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
+      <Sidebar
+        selectedSection={selectedSection}
+        setSelectedSection={setSelectedSection}
+      />
 
       <div className="main-content">
         {selectedSection === 'To-Do List' && (
-          <ToDoDashboard currentFilter={currentFilter} setCurrentFilter={setCurrentFilter} />
+          <ToDoDashboard
+            currentFilter={currentFilter}
+            setCurrentFilter={setCurrentFilter}
+          />
         )}
 
-        {selectedSection === 'Today' && (  // Add this condition for 'Today' section
-          <TodayTasks />
-        )}
-
-        {selectedSection !== 'To-Do List' && selectedSection !== 'Today' && (
+        {selectedSection === 'Today' && <TodayTasks />}
+        {selectedSection === 'Timer' && <TimerPage />}
+        {selectedSection === 'Notes' && <NotePage />}
+        {selectedSection === 'Habit Tracker' && <HabitTracker />} {/* This line is now active */}
+        
+        {/* Placeholder for unfinished sections */}
+        {['To-Do List', 'Today', 'Timer', 'Notes', 'Habit Tracker'].indexOf(selectedSection) === -1 && (
           <div className="placeholder">
             <h2>{selectedSection}</h2>
             <p>This section is under construction ✌️</p>
@@ -79,3 +89,4 @@ function App() {
 }
 
 export default App;
+

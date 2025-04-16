@@ -4,7 +4,40 @@ body {
     margin: 0;
     padding: 0;
   }
+/* App.css */
+body.dark-mode {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+body.dark-mode .sidebar {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+body.dark-mode .main-content {
+  background-color: #181818;
+  color: #ffffff;
+}
+
+/* Dark mode adjustments for other components */
+body.dark-mode .timer-page {
+  background-color: #222;
+  color: #fff;
+}
+
+body.dark-mode .notes-page {
+  background-color: #1f1f1f;
+  color: #fff;
+}
+
+/* Transitions for smooth background color change */
+body, .sidebar, .main-content, .timer-page, .notes-page {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
   
+
   .container {
     max-width: 600px;
     margin: 2rem auto;

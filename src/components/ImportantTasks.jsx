@@ -1,70 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TodayTasks.css";
+import App from "./TimerPage";
 
-const TodayTasks = () => {
+const ImportantTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
-  // Load tasks from localStorage or use default dummy ones
+  // Load from localStorage or default tasks
   useEffect(() => {
     const saved = localStorage.getItem("todayTasks");
+    let loadedTasks = [];
+  
     try {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        setTasks(parsed);
-      } else {
-        throw new Error(); // fallback to default
+      if (Array.isArray(parsed)) {
+        loadedTasks = parsed;
       }
     } catch {
+      // ignore parse errors, fallback to dummy below
+    }
+  
+    if (loadedTasks.length === 0) {
       const defaultTasks = [
         { id: "task-1", content: "Welcome to your to-do app!", completed: false },
         { id: "task-2", content: "Add or edit tasks using the input below.", completed: false },
-        { id: "task-3", content: "Drag tasks to reorder them.", completed: false },
+        { id: "task-3", content: "Click the circle to complete a task!", completed: false },
       ];
-      setTasks(defaultTasks);
+      loadedTasks = defaultTasks;
       localStorage.setItem("todayTasks", JSON.stringify(defaultTasks));
     }
-  }, []); // This useEffect only runs on initial mount
+  
+    setTasks(loadedTasks);
+  }, []);
+  
 
-  // Save to localStorage whenever tasks change
   useEffect(() => {
-    if (tasks.length > 0) {
-      localStorage.setItem("todayTasks", JSON.stringify(tasks));
-    }
-  }, [tasks]); // This useEffect runs every time tasks change
+    localStorage.setItem("todayTasks", JSON.stringify(tasks));
+  }, [tasks]);
 
-  // Add task function
   const handleAddTask = () => {
     const trimmed = newTask.trim();
     if (trimmed === "") return;
 
     const newId = `task-${Date.now()}`;
-    const newEntry = { id: newId, content: trimmed, completed: false };
-
-    setTasks((prev) => [...prev, newEntry]);
-    setNewTask(""); // Reset input field
+    setTasks(prev => [...prev, { id: newId, content: trimmed, completed: false }]);
+    setNewTask("");
   };
 
-  // Handle task content change (editable)
   const handleTaskContentChange = (id, event) => {
-    setTasks((prev) =>
-      prev.map((task) =>
+    setTasks(prev =>
+      prev.map(task =>
         task.id === id ? { ...task, content: event.target.value } : task
       )
     );
   };
 
-  // Drag and drop handler
+  const toggleComplete = (id) => {
+    setTasks(prev =>
+      prev.map(task =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
-    const reordered = Array.from(tasks);
+    const activeTasks = tasks.filter(t => !t.completed);
+    const completedTasks = tasks.filter(t => t.completed);
+
+    const reordered = Array.from(activeTasks);
     const [moved] = reordered.splice(result.source.index, 1);
     reordered.splice(result.destination.index, 0, moved);
 
-    setTasks(reordered);
+    setTasks([...reordered, ...completedTasks]);
   };
+
+  const activeTasks = tasks.filter(task => !task.completed);
+  const completedTasks = tasks.filter(task => task.completed);
 
   return (
     <div className="today-tasks-container">
@@ -78,7 +92,7 @@ const TodayTasks = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {tasks.map((task, index) => (
+              {activeTasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapshot) => (
                     <div
@@ -87,6 +101,10 @@ const TodayTasks = () => {
                       {...provided.dragHandleProps}
                       className={`task-item ${snapshot.isDragging ? "dragging" : ""}`}
                     >
+                      <span
+                        className={`circle-checkbox ${task.completed ? "checked" : ""}`}
+                        onClick={() => toggleComplete(task.id)}
+                      ></span>
                       <input
                         type="text"
                         value={task.content}
@@ -98,8 +116,9 @@ const TodayTasks = () => {
                 </Draggable>
               ))}
 
-              {/* Dummy input to add task */}
+              {/* Input box to add task */}
               <div className="task-item dummy-task">
+                <span className="circle-placeholder" />
                 <input
                   type="text"
                   value={newTask}
@@ -119,8 +138,29 @@ const TodayTasks = () => {
           )}
         </Droppable>
       </DragDropContext>
+
+      {/* Completed tasks block */}
+      {completedTasks.length > 0 && (
+        <div className="completed-tasks">
+          <h3>Completed</h3>
+          {completedTasks.map((task) => (
+            <div key={task.id} className="task-item completed">
+              <span
+                className={`circle-checkbox ${task.completed ? "checked" : ""}`}
+                onClick={() => toggleComplete(task.id)}
+              ></span>
+              <input
+                type="text"
+                value={task.content}
+                onChange={(e) => handleTaskContentChange(task.id, e)}
+                className="task-input completed-input"
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default TodayTasks;
+export default ImportantTasks;

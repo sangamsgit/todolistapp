@@ -1,8 +1,11 @@
 import React from 'react';
-import './Sidebar.css'; // Make sure the sidebar CSS is imported
+import './Sidebar.css';
 import { ListTodo, CalendarDays, Timer, NotebookPen, BadgeCheck } from "lucide-react";
+import { useTheme } from '../context/ThemeContext'; // ✅ Import ThemeContext
 
 const Sidebar = ({ selectedSection, setSelectedSection }) => {
+  const { darkMode, toggleTheme } = useTheme(); // ✅ Use theme context
+
   return (
     <div className="sidebar">
       <div className="sidebar-title">My To-Do List</div>
@@ -46,6 +49,15 @@ const Sidebar = ({ selectedSection, setSelectedSection }) => {
       >
         <NotebookPen />
         <span>Notes</span>
+      </div>
+
+      {/* ✅ Dark Mode Toggle */}
+      <div className="theme-toggle">
+        <label className="switch">
+          <input type="checkbox" checked={darkMode} onChange={toggleTheme} />
+          <span className="slider"></span>
+        </label>
+        <span>{darkMode ? 'Dark' : 'Light'} Mode</span>
       </div>
     </div>
   );
