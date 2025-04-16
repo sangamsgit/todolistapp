@@ -1,104 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import './ToDoDashboard.css';
+import React, { useState } from 'react';
+import TodayTasks from './TodayTasks';
+import ImportantTasks from './ImportantTasks'; // Import ImportantTasks
+import ProjectsTasks from './ProjectsTasks'; // Import ProjectsTasks
+import PlannedTasks from './PlannedTasks'; // Import PlannedTasks
+import './ToDoDashboard.css'; // Make sure the CSS file is imported
 
 const ToDoDashboard = ({ currentFilter, setCurrentFilter }) => {
-  const [tasks, setTasks] = useState(() => {
-    // Retrieve tasks from localStorage or initialize with an empty array
-    const savedTasks = localStorage.getItem('tasks');
-    return savedTasks ? JSON.parse(savedTasks) : [];
-  });
-  const [newTask, setNewTask] = useState('');
-
-  // Save tasks to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
-
-  // Add a new task
-  const addTask = () => {
-    if (newTask.trim() === '') return;
-    const task = {
-      id: Date.now(),
-      text: newTask,
-      completed: false,
-      category: currentFilter,
-    };
-    setTasks([task, ...tasks]);
-    setNewTask('');
-  };
-
-  // Toggle task completion
-  const toggleCompletion = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  // Delete a task
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
-
-  // Edit a task
-  const editTask = (id, newText) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, text: newText } : task
-      )
-    );
-  };
-
-  // Filter tasks based on the current filter
-  const filteredTasks = tasks.filter(
-    (task) => task.category === currentFilter
-  );
+  const [tasks, setTasks] = useState([
+    { id: '1', title: 'Complete UI design', completed: false },
+    { id: '2', title: 'Start working on backend', completed: false },
+    { id: '3', title: 'Push code to GitHub', completed: true },
+  ]);
 
   return (
     <div className="todo-dashboard">
-      <div className="filter-bar">
+      <div className="filter-tabs">
         {['Today', 'Important', 'Planned', 'Projects'].map((filter) => (
           <button
             key={filter}
-            className={filter === currentFilter ? 'active' : ''}
+            className={`filter-btn ${currentFilter === filter ? 'active' : ''}`}
             onClick={() => setCurrentFilter(filter)}
           >
             {filter}
           </button>
         ))}
       </div>
-      <div className="add-task">
-        <input
-          type="text"
-          placeholder={`Add a new ${currentFilter} task`}
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') addTask();
-          }}
-        />
-        <button onClick={addTask}>+</button>
-      </div>
-      <ul className="task-list">
-        {filteredTasks.map((task) => (
-          <li key={task.id} className={task.completed ? 'completed' : ''}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => toggleCompletion(task.id)}
-            />
-            <span
-              contentEditable
-              suppressContentEditableWarning
-              onBlur={(e) => editTask(task.id, e.target.textContent)}
-            >
-              {task.text}
-            </span>
-            <button onClick={() => deleteTask(task.id)}>🗑️</button>
-          </li>
-        ))}
-      </ul>
+
+      {/* Conditionally render the corresponding tasks based on the currentFilter */}
+      {currentFilter === 'Today' && (
+        <TodayTasks tasks={tasks} setTasks={setTasks} />
+      )}
+      {currentFilter === 'Important' && (
+        <ImportantTasks />
+      )}
+      {currentFilter === 'Projects' && (
+        <ProjectsTasks />
+      )}
+      {currentFilter === 'Planned' && (
+        <PlannedTasks />
+      )}
+
+      {/* Display this message if the category isn't available yet */}
+      {currentFilter !== 'Today' && currentFilter !== 'Important' && currentFilter !== 'Planned' && currentFilter !== 'Projects' && (
+        <div className="coming-soon">⚠️ This filter is coming soon.</div>
+      )}
     </div>
   );
 };

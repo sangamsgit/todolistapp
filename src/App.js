@@ -43,25 +43,37 @@
 
 
 import React, { useState } from 'react';
-import './App.css';
 import Sidebar from './components/Sidebar';
-import Home from './pages/Home';
+import ToDoDashboard from './components/ToDoDashboard';
+import TodayTasks from './components/TodayTasks'; // Import the TodayTasks component
+import './App.css';
+// import './responsive.css';
+import { ListTodo, CalendarDays, Timer, NotebookPen, BadgeCheck } from "lucide-react";
 
 function App() {
-  const [currentModule, setCurrentModule] = useState('To-Do List');
+  const [selectedSection, setSelectedSection] = useState('To-Do List');
   const [currentFilter, setCurrentFilter] = useState('Today');
 
   return (
     <div className="app">
-      <Sidebar
-        currentModule={currentModule}
-        setCurrentModule={setCurrentModule}
-      />
-      <Home
-        currentModule={currentModule}
-        currentFilter={currentFilter}
-        setCurrentFilter={setCurrentFilter}
-      />
+      <Sidebar selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
+
+      <div className="main-content">
+        {selectedSection === 'To-Do List' && (
+          <ToDoDashboard currentFilter={currentFilter} setCurrentFilter={setCurrentFilter} />
+        )}
+
+        {selectedSection === 'Today' && (  // Add this condition for 'Today' section
+          <TodayTasks />
+        )}
+
+        {selectedSection !== 'To-Do List' && selectedSection !== 'Today' && (
+          <div className="placeholder">
+            <h2>{selectedSection}</h2>
+            <p>This section is under construction ✌️</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

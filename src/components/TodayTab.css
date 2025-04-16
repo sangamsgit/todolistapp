@@ -1,0 +1,74 @@
+.today-tab {
+    padding: 20px;
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  .today-tab h2 {
+    margin-bottom: 20px;
+  }
+  
+  .task-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 14px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s;
+  }
+  
+  .task-item:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.01);
+  }
+  
+  .task-item .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    margin-right: 12px;
+    position: relative;
+  }
+  
+  .task-item.completed .checkbox {
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
+  
+  .task-item.completed .checkbox::after {
+    content: "✔";
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    top: 1px;
+    left: 4px;
+  }
+  
+  .task-item .task-text {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #888;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

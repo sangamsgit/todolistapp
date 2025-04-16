@@ -50,3 +50,15 @@ body {
     color: #777;
   }
   
+  .placeholder {
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #555;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    margin: 2rem;
+    text-align: center;
+  }
+  
+
+  
