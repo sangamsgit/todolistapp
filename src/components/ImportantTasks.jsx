@@ -1,40 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import "./TodayTasks.css";
-import App from "./TimerPage";
+import "./ImportantTasks.css";
 
 const ImportantTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
-  // Load from localStorage or default tasks
+  // Load from localStorage or fallback to default tasks
   useEffect(() => {
     const saved = localStorage.getItem("todayTasks");
-    let loadedTasks = [];
-  
-    try {
-      const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) {
-        loadedTasks = parsed;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setTasks(parsed);
+          return;
+        }
+      } catch (err) {
+        console.error("Error parsing localStorage:", err);
       }
-    } catch {
-      // ignore parse errors, fallback to dummy below
     }
-  
-    if (loadedTasks.length === 0) {
-      const defaultTasks = [
-        { id: "task-1", content: "Welcome to your to-do app!", completed: false },
-        { id: "task-2", content: "Add or edit tasks using the input below.", completed: false },
-        { id: "task-3", content: "Click the circle to complete a task!", completed: false },
-      ];
-      loadedTasks = defaultTasks;
-      localStorage.setItem("todayTasks", JSON.stringify(defaultTasks));
-    }
-  
-    setTasks(loadedTasks);
-  }, []);
-  
 
+    // If no valid saved tasks
+    const defaultTasks = [
+      { id: "task-1", content: "Welcome to your to-do app!", completed: false },
+      { id: "task-2", content: "Add or edit tasks using the input below.", completed: false },
+      { id: "task-3", content: "Click the circle to complete a task!", completed: false },
+    ];
+    setTasks(defaultTasks);
+    localStorage.setItem("todayTasks", JSON.stringify(defaultTasks));
+  }, []);
+
+  // Save tasks to localStorage on change
   useEffect(() => {
     localStorage.setItem("todayTasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -85,13 +82,19 @@ const ImportantTasks = () => {
       <h2>Important Tasks</h2>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
+        <Droppable droppableId="droppable" key={activeTasks.length}>
           {(provided) => (
             <div
               className="droppable-container"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
+              {activeTasks.length === 0 && (
+                <div className="no-tasks-placeholder">
+                  <p>No tasks yet. Add one below ⬇️</p>
+                </div>
+              )}
+
               {activeTasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapshot) => (
@@ -116,8 +119,8 @@ const ImportantTasks = () => {
                 </Draggable>
               ))}
 
-              {/* Input box to add task */}
-              <div className="task-item dummy-task">
+              {/* Input to add a task */}
+              <div className="task-item dummy-task" style={{ backgroundColor: "#52a3ff" }}>
                 <span className="circle-placeholder" />
                 <input
                   type="text"
@@ -125,6 +128,7 @@ const ImportantTasks = () => {
                   onChange={(e) => setNewTask(e.target.value)}
                   placeholder="Add a new task..."
                   className="task-input"
+                  style={{ backgroundColor: "#8cc6ff" }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleAddTask();
@@ -139,7 +143,7 @@ const ImportantTasks = () => {
         </Droppable>
       </DragDropContext>
 
-      {/* Completed tasks block */}
+      {/* Completed tasks section */}
       {completedTasks.length > 0 && (
         <div className="completed-tasks">
           <h3>Completed</h3>
