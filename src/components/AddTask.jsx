@@ -1,25 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AddTask = ({ onAdd }) => {
-  const [text, setText] = useState('');
+  const [input, setInput] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!text.trim()) return;
-    onAdd(text);
-    setText('');
+  const handleAdd = () => {
+    const trimmed = input.trim();
+    if (!trimmed) return;
+    onAdd(trimmed);
+    setInput("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-2">
+    <div className="task-item dummy-task" style={{ backgroundColor: "#52a3ff" }}>
+      <span className="circle-placeholder" />
       <input
-        className="flex-1 p-2 border rounded"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="New task..."
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Add a new task..."
+        className="task-input"
+        style={{ backgroundColor: "#8cc6ff" }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleAdd();
+        }}
       />
-      <button className="bg-blue-500 text-white px-4 rounded">Add</button>
-    </form>
+    </div>
   );
 };
 
