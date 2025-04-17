@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import TodayTasks from './TodayTasks';
-import ImportantTasks from './ImportantTasks'; // Import ImportantTasks
-import ProjectsTasks from './ProjectsTasks'; // Import ProjectsTasks
-import PlannedTasks from './PlannedTasks'; // Import PlannedTasks
-import './ToDoDashboard.css'; // Make sure the CSS file is imported
+import ImportantTasks from './ImportantTasks';
+import ProjectsTasks from './ProjectsTasks';
+import PlannedTasks from './PlannedTasks';
+import './ToDoDashboard.css';
 
 const ToDoDashboard = ({ currentFilter, setCurrentFilter }) => {
   const [tasks, setTasks] = useState([
@@ -12,36 +12,36 @@ const ToDoDashboard = ({ currentFilter, setCurrentFilter }) => {
     { id: '3', title: 'Push code to GitHub', completed: true },
   ]);
 
+  const filters = [
+    { name: 'Today', color: 'default' },
+    { name: 'Important', color: 'orange' },
+    { name: 'Projects', color: 'green' },
+    { name: 'Planned', color: 'violet' },
+  ];
+
   return (
     <div className="todo-dashboard">
       <div className="filter-tabs">
-        {['Today', 'Important', 'Planned', 'Projects'].map((filter) => (
+        {filters.map(({ name, color }) => (
           <button
-            key={filter}
-            className={`filter-btn ${currentFilter === filter ? 'active' : ''}`}
-            onClick={() => setCurrentFilter(filter)}
+            key={name}
+            className={`filter-btn ${currentFilter === name ? 'active' : ''}`}
+            onClick={() => setCurrentFilter(name)}
+            style={{ backgroundColor: currentFilter === name ? color : '' }}
           >
-            {filter}
+            {name}
           </button>
         ))}
       </div>
 
-      {/* Conditionally render the corresponding tasks based on the currentFilter */}
       {currentFilter === 'Today' && (
         <TodayTasks tasks={tasks} setTasks={setTasks} />
       )}
-      {currentFilter === 'Important' && (
-        <ImportantTasks />
-      )}
-      {currentFilter === 'Projects' && (
-        <ProjectsTasks />
-      )}
-      {currentFilter === 'Planned' && (
-        <PlannedTasks />
-      )}
+      {currentFilter === 'Important' && <ImportantTasks />}
+      {currentFilter === 'Projects' && <ProjectsTasks />}
+      {currentFilter === 'Planned' && <PlannedTasks />}
 
-      {/* Display this message if the category isn't available yet */}
-      {currentFilter !== 'Today' && currentFilter !== 'Important' && currentFilter !== 'Planned' && currentFilter !== 'Projects' && (
+      {![ 'Today', 'Important', 'Planned', 'Projects' ].includes(currentFilter) && (
         <div className="coming-soon">⚠️ This filter is coming soon.</div>
       )}
     </div>

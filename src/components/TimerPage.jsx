@@ -24,6 +24,15 @@ const App = () => {
     setTime(totalSeconds);
   };
 
+  const handleQuickStart = (durationInMinutes) => {
+    const totalSeconds = durationInMinutes * 60;
+    setInitialTime(totalSeconds);
+    updateTime(totalSeconds);
+    setIsRunning(true);
+  };
+
+
+
   useEffect(() => {
     if (isRunning && time > 0) {
       timerRef.current = setInterval(() => {
@@ -134,6 +143,14 @@ const App = () => {
           <div
             className="progress-bar"
           ></div>
+        </div>
+        <div className="quick-start-buttons">
+            <button onClick={() => handleQuickStart(2)} className="quick-btn">
+              Start 2 Min Timer
+            </button>
+            <button onClick={() => handleQuickStart(5)} className="quick-btn">
+              Start 5 Min Timer
+            </button>
         </div>
       </div>
     </div>

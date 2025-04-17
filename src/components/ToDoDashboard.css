@@ -45,3 +45,28 @@ body.dark-mode {
   --tab-bar-bg: #1e1e1e;
   --text-color: #f0f0f0;
 }
+
+.filter-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  opacity: 0.85;
+}
+
+.filter-btn.active {
+  color: white;
+}

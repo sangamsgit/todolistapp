@@ -103,3 +103,25 @@
     cursor: not-allowed;
   }
   
+  .quick-start-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .quick-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .quick-btn:hover {
+    background-color: #0056b3;
+  }
+  

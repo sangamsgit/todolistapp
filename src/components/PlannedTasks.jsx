@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import "./TodayTasks.css";
+
 
 const PlannedTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -24,7 +24,7 @@ const PlannedTasks = () => {
     // If no valid saved tasks
     const defaultTasks = [
       { id: "task-1", content: "Welcome to your to-do app!", completed: false },
-      { id: "task-2", content: "Add or edit tasks using the input below.", completed: false },
+      { id: "task-2", content: "Add Planned Tasks here!", completed: false },
       { id: "task-3", content: "Click the circle to complete a task!", completed: false },
     ];
     setTasks(defaultTasks);
